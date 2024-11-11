@@ -6,6 +6,12 @@ import numpy as np
 from sklearn.datasets import load_iris
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
+import os
+import uvicorn
+from backend import app  # Ensure this matches your actual module structure
+
+
+
 
 # Load the iris dataset
 iris = load_iris()
@@ -36,3 +42,8 @@ async def predict_species(data: dict):
     class_name = iris.target_names[prediction][0]
     # Include accuracy in the response
     return {"class": class_name, "accuracy": model_accuracy}
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
